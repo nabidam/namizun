@@ -3,6 +3,13 @@ from psutil import cpu_percent
 from namizun_core import database, network
 from namizun_menu import display
 from time import sleep
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+REDIS_HOSTNAME = os.getenv('REDIS_HOSTNAME', 'localhost')
+
+db = database(REDIS_HOSTNAME)
 
 
 def total_upload_color(total_upload, total_download):
@@ -56,7 +63,7 @@ def system_usage():
     sleep(0.2)
     display.line_jumper(-15)
     display.line_remover(5)
-    old_bytes_sent, old_bytes_recv = network.get_network_io()
+    old_bytes_sent, old_bytes_recv = network.get_network_io(db)
     namizun_monitor = PrettyTable()
     namizun_monitor.field_names = [f"{display.cyan_color}Σ Upload{display.cornsilk_color}",
                                    f"{display.cyan_color}Σ Download{display.cornsilk_color}",
@@ -78,7 +85,7 @@ def system_usage():
             print(
                 f"{display.gold_color}---------------{display.magenta_color}MONITORING"
                 f"{display.gold_color}--------------\n{display.cornsilk_color}")
-            new_bytes_sent, new_bytes_recv = network.get_network_io()
+            new_bytes_sent, new_bytes_recv = network.get_network_io(db)
             namizun_monitor.add_row([
                 total_upload_color(new_bytes_sent, new_bytes_recv),
                 total_download_color(new_bytes_recv),

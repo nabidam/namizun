@@ -16,7 +16,7 @@ db = database(REDIS_HOSTNAME)
 
 
 def reboot_finder():
-    new_upload_amount, new_download_amount = get_network_io()
+    new_upload_amount, new_download_amount = get_network_io(db)
     cached_download_amount = db.get_cache_parameter('total_download_cache')
     cached_upload_amount = db.get_cache_parameter('total_upload_cache')
     if new_upload_amount >= cached_upload_amount and new_download_amount >= cached_download_amount:

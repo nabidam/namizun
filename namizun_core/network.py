@@ -13,10 +13,10 @@ def get_size(only_bytes):
         only_bytes /= 1024
 
 
-def get_network_io():
+def get_network_io(db):
     io = net_io_counters()
-    return io.bytes_sent + database.get_parameter('upload_amount_synchronizer') \
-        , io.bytes_recv + database.get_parameter('download_amount_synchronizer')
+    return io.bytes_sent + db.get_parameter('upload_amount_synchronizer') \
+        , io.bytes_recv + db.get_parameter('download_amount_synchronizer')
 
 
 def get_system_network_io():

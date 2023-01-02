@@ -66,7 +66,7 @@ while True:
         store_new_upload_loop_log(total_uploader, total_upload_size)
         while remain_uploader > 0 and remain_upload_size > 0.1 * total_upload_size:
             uploader_count, upload_size_for_each_ip = multi_udp_uploader(
-                0.3 * total_upload_size, total_uploader)
+                0.3 * total_upload_size, total_uploader, db)
             if uploader_count == 0:
                 remain_uploader -= 1
             else:

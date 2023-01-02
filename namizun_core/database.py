@@ -2,6 +2,7 @@ from redis import Redis
 from os import system, path
 from random import randint
 
+
 class database():
 
     parameters = [
@@ -15,10 +16,9 @@ class database():
     cache_parameters = {}
     buffers_weight = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
-    def __init__(self, hostname = "localhost"):
+    def __init__(self, hostname="localhost"):
         self.hostname = hostname
         self.singleton = Redis(host=hostname)
-
 
     def get_default(self, key):
         if key == 'range_ips':
@@ -48,7 +48,6 @@ class database():
         elif key == 'in_submenu':
             return False
 
-
     def check_datatype(self, value):
         if isinstance(value, bytes):
             value = value.decode('UTF-8')
@@ -64,7 +63,6 @@ class database():
             except ValueError:
                 return value
 
-
     def get_parameter(self, key):
         if key in self.parameters:
             my_db = self.singleton
@@ -76,7 +74,6 @@ class database():
         else:
             return None
 
-
     def set_parameter(self, key, value):
         if key in self.parameters:
             self.singleton.set(self.prefix + key, str(value))
@@ -84,33 +81,30 @@ class database():
         else:
             return None
 
-
     def get_cache_parameter(self, key):
         if key in self.parameters:
             return self.cache_parameters[key]
         else:
             return None
 
-
     def get_buffers_weight(self):
         global buffers_weight
-        selected_buffer_size = 2 * self.get_cache_parameter('coefficient_buffer_size') - 1
+        selected_buffer_size = 2 * \
+            self.get_cache_parameter('coefficient_buffer_size') - 1
         buffers_weight = [
             1 / 2 ** abs(buffer_size - selected_buffer_size)
             for buffer_size in range(1, 14)
         ]
-
 
     def set_parameters_to_cache(self):
         for key in self.parameters:
             self.cache_parameters[key] = self.get_parameter(key)
         self.get_buffers_weight()
 
-
     def set_ip_port_to_database(self, target_ip, target_port):
         my_db = self.singleton
-        my_db.set(self.ip_prefix + target_ip, str(target_port), ex=randint(600, 6000))
-
+        my_db.set(self.ip_prefix + target_ip,
+                  str(target_port), ex=randint(600, 6000))
 
     def get_ip_ports_from_database(self):
         my_db = self.singleton
@@ -121,5 +115,6 @@ class database():
                 if isinstance(key, bytes):
                     key = key.decode('UTF-8')
                 ip = key.split('_')[-1]
-                result[ip] = self.check_datatype(my_db.get(self.ip_prefix + ip))
+                result[ip] = self.check_datatype(
+                    my_db.get(self.ip_prefix + ip))
         return result

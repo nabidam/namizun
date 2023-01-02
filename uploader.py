@@ -60,7 +60,7 @@ store_restart_namizun_uploader_log()
 while True:
     db.set_parameters_to_cache()
     if db.get_cache_parameter('fake_udp_uploader_running'):
-        cache_ip_ports_from_database()
+        cache_ip_ports_from_database(db)
         total_upload_size = remain_upload_size = get_network_usage()
         total_uploader = remain_uploader = get_uploader_count_base_timeline()
         store_new_upload_loop_log(total_uploader, total_upload_size)

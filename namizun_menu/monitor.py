@@ -13,8 +13,8 @@ db = database(REDIS_HOSTNAME)
 
 
 def total_upload_color(total_upload, total_download):
-    value = max(0, (database.get_parameter('coefficient_limitation') - total_upload / (total_download + 1))) / \
-            database.get_parameter('coefficient_limitation') * 100
+    value = max(0, (db.get_parameter('coefficient_limitation') - total_upload / (total_download + 1))) / \
+            db.get_parameter('coefficient_limitation') * 100
     if 66 <= value <= 100:
         return display.red_color + network.get_size(total_upload) + display.cornsilk_color
     elif 33 <= value < 66:
@@ -76,10 +76,10 @@ def system_usage():
     display.line_jumper(+11)
     while True:
         sleep(1)
-        if database.get_parameter('in_submenu') is None:
+        if db.get_parameter('in_submenu') is None:
             display.clear_terminal()
             return exit()
-        if database.get_parameter('in_submenu') is False:
+        if db.get_parameter('in_submenu') is False:
             display.line_jumper(-15)
             display.line_remover(5)
             print(
@@ -107,8 +107,8 @@ def network_usage_details_table():
     usage_table.add_row([f"{display.cyan_color}system{display.cornsilk_color}",
                          network.get_size(bytes_sent),
                          network.get_size(bytes_recv)])
-    upload_amount_synchronizer = database.get_parameter('upload_amount_synchronizer')
-    download_amount_synchronizer = database.get_parameter('download_amount_synchronizer')
+    upload_amount_synchronizer = db.get_parameter('upload_amount_synchronizer')
+    download_amount_synchronizer = db.get_parameter('download_amount_synchronizer')
     usage_table.add_row([f"{display.cyan_color}synchronizer{display.cornsilk_color}",
                          network.get_size(upload_amount_synchronizer),
                          network.get_size(download_amount_synchronizer)])
@@ -120,8 +120,8 @@ def network_usage_details_table():
     usage_table.add_row(['------------', '------------', '------------'])
     usage_table.add_row(['------------', '------------', '------------'])
     usage_table.add_row([f"{display.cyan_color}last cached{display.cornsilk_color}",
-                         network.get_size(database.get_parameter('total_upload_cache')),
-                         network.get_size(database.get_parameter('total_download_cache'))])
+                         network.get_size(db.get_parameter('total_upload_cache')),
+                         network.get_size(db.get_parameter('total_download_cache'))])
     print(
         f"{display.gold_color}------------{display.magenta_color}network usage details"
         f"{display.gold_color}------------\n\n{display.cornsilk_color}{usage_table}\n"

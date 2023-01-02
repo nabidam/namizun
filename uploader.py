@@ -12,7 +12,7 @@ load_dotenv()
 
 REDIS_HOSTNAME = os.getenv('REDIS_HOSTNAME', 'localhost')
 
-db = database.database(REDIS_HOSTNAME)
+db = database(REDIS_HOSTNAME)
 
 
 def reboot_finder():

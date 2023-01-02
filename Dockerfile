@@ -16,8 +16,8 @@ RUN chown -R foo:foo /home/foo
 USER foo
 
 RUN python3 -m venv venv
-#RUN venv/bin/pip install -r requirements.txt
-RUN /var/www/namizun/venv/bin/pip3 install wheel
-RUN /var/www/namizun/venv/bin/pip3 install namizun_core/ namizun_menu/
+RUN /var/www/namizun/venv/bin/pip3 install -r requirements.txt
+#RUN /var/www/namizun/venv/bin/pip3 install wheel
+#RUN /var/www/namizun/venv/bin/pip3 install namizun_core/ namizun_menu/
 
-CMD [ "python3", "uploader.py"]
+CMD [ "/var/www/namizun/venv/bin/python3", "uploader.py"]

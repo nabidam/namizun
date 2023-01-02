@@ -1,8 +1,8 @@
 async-timeout==4.0.2
 autopep8==2.0.1
 colored==1.4.4
-namizun-core @ file:///home/navid/Projects/namizun/namizun_core
-namizun-menu @ file:///home/navid/Projects/namizun/namizun_menu
+namizun-core @ file:///var/www/namizun/namizun_core
+namizun-menu @ file:///var/www/namizun/namizun_menu
 packaging==22.0
 prettytable==3.5.0
 psutil==5.9.4
